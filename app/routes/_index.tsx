@@ -81,12 +81,12 @@ export default function MergeRoute() {
   // Function to randomize a single particle
   const randomizeParticle = (index: number) => {
     const root = document.documentElement;
-    const gridSize = 40;
+    const gridSize = 60;
     const maxGridsX = Math.floor(window.innerWidth / gridSize);
     const maxGridsY = Math.floor(window.innerHeight / gridSize);
 
     const isVertical = Math.random() > 0.5;
-    const isPositive = Math.random() > 0.5; // Determines if moving down/right (true) or up/left (false)
+    const isPositive = Math.random() > 0.5;
     const gridLine = isVertical 
       ? Math.floor(Math.random() * maxGridsX) 
       : Math.floor(Math.random() * maxGridsY);
@@ -101,9 +101,6 @@ export default function MergeRoute() {
       particle.classList.remove(`particle-${index}`);
       void particle.offsetWidth; // Force reflow
       particle.classList.add(`particle-${index}`);
-
-      // Update trail orientation based on direction
-     
     }
   };
 
@@ -112,7 +109,7 @@ export default function MergeRoute() {
     const initializeParticles = () => {
       // Stagger the initial generation
       [1, 2, 3].forEach((index, i) => {
-        setTimeout(() => randomizeParticle(index), i * 2000); // 2 second delay between each particle
+        setTimeout(() => randomizeParticle(index), i * 2000);
       });
 
       // Set up animation end listeners for each particle
@@ -145,7 +142,9 @@ export default function MergeRoute() {
       <div className="particle particle-2"></div>
       <div className="particle particle-3"></div>
       <div className="max-w-4xl mx-auto py-12 relative">
-        <h1 className="text-4xl font-bold mb-8 text-center text-cyan-300 tracking-[0.2em] glow-strong uppercase">Whisper Diary</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center text-cyan-300 tracking-[0.2em] glow-strong uppercase">
+          Whisper Diary
+        </h1>
         
         <div className="bg-slate-800/50 shadow-[0_0_20px_rgba(34,211,238,0.15)] rounded-none p-8 border-2 border-cyan-400/30 backdrop-blur-sm">
           <Form method="post" encType="multipart/form-data" className="space-y-8">
@@ -271,151 +270,6 @@ export default function MergeRoute() {
           )}
         </div>
       </div>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
-        
-        :root {
-          --particle-1-pos: 0px;
-          --particle-2-pos: 0px;
-          --particle-3-pos: 0px;
-          --particle-1-is-vertical: 1;
-          --particle-2-is-vertical: 1;
-          --particle-3-is-vertical: 0;
-          --particle-1-is-positive: 1;
-          --particle-2-is-positive: 1;
-          --particle-3-is-positive: 1;
-        }
-
-        .grid-bg {
-          background-image: 
-            linear-gradient(to right, rgba(34, 211, 238, 0.1) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(34, 211, 238, 0.1) 1px, transparent 1px);
-          background-size: 40px 40px;
-        }
-
-        .glow-strong {
-          text-shadow: 0 0 15px rgba(34, 211, 238, 0.4),
-                      0 0 30px rgba(34, 211, 238, 0.2),
-                      0 0 45px rgba(34, 211, 238, 0.1);
-        }
-
-        .particle {
-          position: absolute;
-          width: 4px;
-          height: 4px;
-          background: rgba(34, 211, 238, 0.7);
-          pointer-events: none;
-        }
-
-        .particle::before {
-          content: '';
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          background: inherit;
-          filter: blur(2px);
-        }
-
-        .particle::after {
-          content: '';
-          position: absolute;
-          background: rgba(34, 211, 238, 0.3);
-          filter: blur(1px);
-        }
-
-        .particle-1 {
-          animation: moveParticle1 6s linear;
-        }
-
-        .particle-2 {
-          animation: moveParticle2 6s linear;
-        }
-
-        .particle-3 {
-          animation: moveParticle3 6s linear;
-        }
-
-        @keyframes moveParticle1 {
-          0% {
-            opacity: 0;
-            transform: translate(
-              calc(var(--particle-1-is-vertical) * var(--particle-1-pos)),
-              calc((1 - var(--particle-1-is-vertical)) * var(--particle-1-pos))
-            ) 
-            translate(
-              calc((1 - var(--particle-1-is-vertical)) * (var(--particle-1-is-positive) * 100vw - 50vw)),
-              calc(var(--particle-1-is-vertical) * (var(--particle-1-is-positive) * 100vh - 50vh))
-            );
-          }
-          5% { opacity: 1; }
-          95% { opacity: 1; }
-          100% {
-            opacity: 0;
-            transform: translate(
-              calc(var(--particle-1-is-vertical) * var(--particle-1-pos)),
-              calc((1 - var(--particle-1-is-vertical)) * var(--particle-1-pos))
-            )
-            translate(
-              calc((1 - var(--particle-1-is-vertical)) * (var(--particle-1-is-positive) * -100vw + 50vw)),
-              calc(var(--particle-1-is-vertical) * (var(--particle-1-is-positive) * -100vh + 50vh))
-            );
-          }
-        }
-
-        @keyframes moveParticle2 {
-          0% {
-            opacity: 0;
-            transform: translate(
-              calc(var(--particle-2-is-vertical) * var(--particle-2-pos)),
-              calc((1 - var(--particle-2-is-vertical)) * var(--particle-2-pos))
-            ) 
-            translate(
-              calc((1 - var(--particle-2-is-vertical)) * (var(--particle-2-is-positive) * 100vw - 50vw)),
-              calc(var(--particle-2-is-vertical) * (var(--particle-2-is-positive) * 100vh - 50vh))
-            );
-          }
-          5% { opacity: 1; }
-          95% { opacity: 1; }
-          100% {
-            opacity: 0;
-            transform: translate(
-              calc(var(--particle-2-is-vertical) * var(--particle-2-pos)),
-              calc((1 - var(--particle-2-is-vertical)) * var(--particle-2-pos))
-            )
-            translate(
-              calc((1 - var(--particle-2-is-vertical)) * (var(--particle-2-is-positive) * -100vw + 50vw)),
-              calc(var(--particle-2-is-vertical) * (var(--particle-2-is-positive) * -100vh + 50vh))
-            );
-          }
-        }
-
-        @keyframes moveParticle3 {
-          0% {
-            opacity: 0;
-            transform: translate(
-              calc(var(--particle-3-is-vertical) * var(--particle-3-pos)),
-              calc((1 - var(--particle-3-is-vertical)) * var(--particle-3-pos))
-            ) 
-            translate(
-              calc((1 - var(--particle-3-is-vertical)) * (var(--particle-3-is-positive) * 100vw - 50vw)),
-              calc(var(--particle-3-is-vertical) * (var(--particle-3-is-positive) * 100vh - 50vh))
-            );
-          }
-          5% { opacity: 1; }
-          95% { opacity: 1; }
-          100% {
-            opacity: 0;
-            transform: translate(
-              calc(var(--particle-3-is-vertical) * var(--particle-3-pos)),
-              calc((1 - var(--particle-3-is-vertical)) * var(--particle-3-pos))
-            )
-            translate(
-              calc((1 - var(--particle-3-is-vertical)) * (var(--particle-3-is-positive) * -100vw + 50vw)),
-              calc(var(--particle-3-is-vertical) * (var(--particle-3-is-positive) * -100vh + 50vh))
-            );
-          }
-        }
-      `}</style>
     </div>
   );
 } 
